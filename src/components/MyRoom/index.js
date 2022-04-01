@@ -22,10 +22,10 @@ export default class MyRoom extends React.Component {
     render () {
         return (
             <Layout>
-                <Content className="site-layout-background" style={{paddingBottom: 20}}>
-                    <h1 style={{marginLeft:10, textAlign:"left", height:32, lineHeight:"32px", fontWeight:"bold", fontSize:"large"}}>
+                <Content className="site-layout-background" style={{paddingBottom: 20, textAlign:"left"}}>
+                    <div className="title">
                         My Rooms
-                    </h1>
+                    </div>
                 </Content>
                 <Content className="site-layout-background">
                     <List
