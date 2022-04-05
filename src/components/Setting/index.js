@@ -34,7 +34,7 @@ export default class Setting extends React.Component {
     };
 
     onPwPressEnter = (e) => {
-        if (e.target.value == this.state.pw)
+        if (e.target.value === this.state.pw)
         {
             message.success("Correct");
             this.setState({checkPw: false});

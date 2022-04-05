@@ -30,6 +30,7 @@ export default class MindForest extends React.Component {
         this.state={
              searchText: null,
              searchRes: data,
+             returnButton: false,
         }
     }
 
@@ -39,6 +40,12 @@ export default class MindForest extends React.Component {
         let res = data.filter(item => item.id === value);
         console.log(res);
         this.setState({searchRes: res});
+        this.setState({returnButton: true});
+    }
+
+    onClick = () => {
+        this.setState({searchRes: data});
+        this.setState({returnButton: false});
     }
 
     render () {
@@ -74,6 +81,9 @@ export default class MindForest extends React.Component {
                                 </Card>
                         )}
                     />
+                    {this.state.returnButton?
+                        <div style={{marginTop: 20, float:"right"}}><Button type="primary" onClick={this.onClick}>Return</Button></div>
+                    :<div></div>}
                 </Content>
             </Layout>
         );
