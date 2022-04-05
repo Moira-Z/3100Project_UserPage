@@ -1,11 +1,14 @@
 import React from "react";
-import {Card, List, Layout} from 'antd';
+import {Modal, Card, List, Layout, Button, Divider} from 'antd';
 import {Content} from "antd/es/layout/layout";
+import {ExclamationCircleOutlined} from '@ant-design/icons';
+
+const { confirm } = Modal;
 
 const data = [
     {
         title: 'Title 1',
-        content: "https://focus.meisterlabs.com/wp-content/uploads/2016/08/Basic-Mind-Map-Structure.png"
+        date: "2022/4/5"
     },
     {
         title: 'Title 2',
@@ -19,6 +22,30 @@ const data = [
 ];
 
 export default class MyRoom extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state={
+            list: data,
+        }
+    }
+
+    showConfirm = (id) => {
+        confirm({
+            title: 'Do you want to delete this mind map?',
+            icon: <ExclamationCircleOutlined />,
+            content: 'When clicked the OK button, this dialog will be closed after 1 second',
+            onOk:()=> {
+                this.handleDelete(id);
+            },
+            onCancel() {},
+        });
+    }
+
+    handleDelete = (id) => {
+        data.splice(id, 1);
+        this.setState({list: data});
+    }
+
     render () {
         return (
             <Layout>
@@ -27,37 +54,31 @@ export default class MyRoom extends React.Component {
                         My Rooms
                     </div>
                 </Content>
-                <Content className="site-layout-background">
+                <Content className="site-layout-background" style={{textAlign:"left"}}>
                     <List
-                        grid={{
-                            gutter: 16,
-                            xs: 1,
-                            sm: 1,
-                            md: 1,
-                            lg: 2,
-                            xl: 2,
-                            xxl: 2,
-                        }}
-                        dataSource={data}
-                        renderItem={item => (
-                            <List.Item>
-                                <Card
-                                    hoverable
-                                    style={{ height: 352, position:"relative"}}
-                                    cover={<img style={{maxHeight:352}} alt="example" src= {item.content} />}
+                        dataSource={this.state.list}
+                        renderItem={(item, idx) => (
+                            <Card
+                                type = "inner"
+                                title={item.title}
+                                extra={[<Button onClick={this.showConfirm.bind(this, idx)} size="small" type="primary" style={{width: 60}}>
+                                    Delete
+                                    </Button>,
+                                    <Divider type = "vertical" />,
+                                    <Button size="small" type="primary" style={{width: 60}}>
+                                    Join
+                                    </Button>]}
+                                hoverable
+                                style={{marginBottom: 20, height: 100}}>
+                            <List.Item
+                                style={{paddingTop: 0}}
                                 >
-                                    <div
-                                        style={{padding:0, width:"100%", height: 50, position: "absolute", left: 0,bottom: 0,
-                                            textAlign:"left",
-                                            backgroundColor: "rgba(219,242,219,0.33)"}}
-                                    >
-                                        <div style={{lineHeight:"50px", display:"inline-block", position: "relative", float: "left", marginLeft:8}}>
-                                            <span style={{fontWeight:"bold"}}>mind map title</span>
-                                        </div>
-                                        <div style={{lineHeight:"50px",display:"inline-block", fontSize:10, position: "relative", float: "right", marginRight:8, marginTop:2}}>Last modified: date by xxx</div>
-                                    </div>
-                                </Card>
+                                <List.Item.Meta
+
+                                    description= {<span>last modified: {item.date}</span>}
+                                />
                             </List.Item>
+                            </Card>
                         )}
                     />
                 </Content>

@@ -1,73 +1,77 @@
 import React from "react";
-import {Card, List, Divider, Statistic, Layout, Input} from 'antd';
+import {Card, List, Divider, Avatar, Layout, Input, Button} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import {Content} from "antd/es/layout/layout";
 
 const { Search } = Input;
 
-const onSearch = value => console.log(value);
-
 const data = [
     {
         title: 'Title 1',
-        content: "https://i0.wp.com/therightquestions.co/wp-content/uploads/2013/01/THE-Right-QUESTIONS-MindMap.jpg?fit=1906%2C1070&ssl=1"
+        id: "001"
     },
     {
         title: 'Title 2',
+        id: "002"
     },
     {
         title: 'Title 3',
+        id: "003"
     },
     {
         title: 'Title 4',
+        id: "004"
     },
 ];
 
 export default class MindForest extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state={
+             searchText: null,
+             searchRes: data,
+        }
+    }
+
+    onSearch = value => {
+        console.log(value);
+        this.setState({searchText: value});
+        let res = data.filter(item => item.id === value);
+        console.log(res);
+        this.setState({searchRes: res});
+    }
+
     render () {
         return (
             <Layout>
                 <Content className="site-layout-background" style={{paddingBottom: 20, textAlign:"left"}}>
                     <div className="title" style={{display:"inline-block", height:32, lineHeight:"32px"}}>
-                        Find all your interest here
+                        Find your interest here!
                     </div>
-                    <Search style={{display:"inline-block", width:300, float:"right"}} placeholder="input search text" onSearch={onSearch} enterButton />
+                    <Search style={{display:"inline-block", width:300, float:"right"}}
+                            placeholder="please input room ID"
+                            onSearch={this.onSearch}
+                            enterButton />
                 </Content>
-                <Content className="site-layout-background">
+                <Content className="site-layout-background" style={{textAlign:"left"}}>
                     <List
-                        grid={{
-                            gutter: 16,
-                            xs: 1,
-                            sm: 1,
-                            md: 1,
-                            lg: 2,
-                            xl: 2,
-                            xxl: 2,
-                        }}
-                        dataSource={data}
+                        dataSource={this.state.searchRes}
                         renderItem={item => (
-                            <List.Item>
                                 <Card
+                                    type = "inner"
+                                    title={<div><Avatar style={{marginRight: 15}} src="https://joeschmoe.io/api/v1/random" />
+                                        {item.title} </div>}
+                                    extra={<Button size="small" type="primary" style={{width: 70}}>
+                                        Join
+                                    </Button>}
                                     hoverable
-                                    style={{ height: 300, position:"relative" }}
-                                    cover={<img style={{maxHeight:352}} alt="example" src= {item.content} />}
-                                >
-                                    <div
-                                        style={{padding:0, width:"100%", position: "absolute", left: 0,bottom: 0,
-                                            textAlign:"left",
-                                            backgroundColor: "rgba(219,242,219,0.33)"}}
-                                    >
-                                        <div style={{display:"inline-block", position: "relative", float: "left", marginLeft:8}}>
-                                            <span style={{fontWeight:"bold"}}>mind map title</span>
-                                            <br/>
-                                            author
-                                            <Divider type="vertical" />
-                                            date
-                                        </div>
-                                        <div style={{display:"inline-block", fontSize:10, position: "relative", float: "right", marginRight:8, marginTop:2}}><Statistic value={5} prefix={<UserOutlined />} /></div>
-                                    </div>
+                                    style={{marginBottom: 20, height: 100, width: "100%"}}>
+                                    <List.Item style={{paddingTop: 0}}>
+                                        <List.Item.Meta
+                                            description= {<span>last modified: {item.date}</span>}
+                                        />
+                                    </List.Item>
                                 </Card>
-                            </List.Item>
                         )}
                     />
                 </Content>
