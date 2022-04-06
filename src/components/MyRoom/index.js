@@ -27,6 +27,7 @@ export default class MyRoom extends React.Component {
         this.state={
             list: data,
         }
+
     }
 
     showConfirm = (id) => {
