@@ -2,6 +2,7 @@ import React from "react";
 import {Modal, Card, List, Layout, Button, Divider} from 'antd';
 import {Content} from "antd/es/layout/layout";
 import {ExclamationCircleOutlined} from '@ant-design/icons';
+URL="http://localhost:8080/myrooms"
 
 const { confirm } = Modal;
 
@@ -27,7 +28,22 @@ export default class MyRoom extends React.Component {
         this.state={
             list: data,
         }
+
     }
+
+    componentDidMount() {
+        fetch(URL)
+            .then(res=>res.json())
+            .then(
+                (result)=>{
+                    this.setState({list:result})
+                },
+                (error)=>{
+                    console.log("Fetch failed")
+                }
+                )
+
+        }
 
     showConfirm = (id) => {
         confirm({

@@ -41,13 +41,13 @@ function Home(){
                 </div>
                 <Menu theme="dark" mode="inline" defaultSelectedKeys={[selected]} >
                     <Menu.Item key="1" icon={<ClusterOutlined />} style={{ height: 60}} selected={useLocation()["pathname"]==='"/*"'}>
-                        <Link to="/*">Mind Forest</Link>
+                        <Link to="/main">Mind Forest</Link>
                     </Menu.Item>
                     <Menu.Item key="2" icon={<DatabaseOutlined />} style={{ height: 60}} selected={useLocation()["pathname"]==='"/myRoom"'}>
-                        <Link to="/myRoom">My Room</Link>
+                        <Link to="/main/myRoom">My Room</Link>
                     </Menu.Item>
                     <Menu.Item key="3" icon={<SettingOutlined />} style={{ height: 60}} selected={useLocation()["pathname"]==='"/setting"'}>
-                        <Link to="/setting">Setting</Link>
+                        <Link to="/main/setting">Setting</Link>
                     </Menu.Item>
                 </Menu>
             </Sider>
@@ -58,7 +58,8 @@ function Home(){
                             <Routes>
                                 <Route path="/myRoom" element={<MyRoom />} />
                                 <Route path="/setting" element={<Setting />} />
-                                <Route path="/*" element={<MindForest />} />
+                                <Route path="/main" element={<MindForest />} />
+
                             </Routes>
                         </div>
                     </div>
