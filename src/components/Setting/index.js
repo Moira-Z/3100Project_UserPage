@@ -3,6 +3,7 @@ import {Content} from "antd/es/layout/layout";
 import {CheckOutlined, ExclamationCircleOutlined, UserOutlined} from '@ant-design/icons';
 import {Divider, Avatar, Layout, Popover, Button, Input, Tooltip, message, Modal} from 'antd';
 import {Link} from "react-router-dom";
+URL="http://localhost:8080/setting";
 
 const { confirm } = Modal;
 
@@ -13,20 +14,51 @@ export default class Setting extends React.Component {
             disabledName: true,
             name: "Moira",
             pw: "123456",
+            id: "",
+            mail: "1155141582@link.cuhk.edu.hk",
             checkPw: false,
             newPw: false,
+            info: [{
+                id: "",
+                username: "Moira",
+                password: "123456",
+                email: "1155141582@link.cuhk.edu.hk",
+                avatar: "",
+            }],
         }
+    }
+
+    componentDidMount() {
+        fetch(URL)
+            .then(res=>res.json())
+            .then(
+                (result)=>{
+                    this.setState({info:result})
+                },
+                (error)=>{
+                    console.log("Fetch failed")
+                }
+            )
+
     }
 
     onNameClick (){
          this.setState({disabledName: false});
     };
 
+    // modify name
     onNamePressEnter = (e) => {
         console.log(e.target.value);
         this.setState({name: e.target.value});
         this.setState({disabledName: true});
         message.success("your nickname is modified successfully:)");
+        fetch("http://localhost:8080/changePassword", {
+            method: 'post',
+            body: {
+                "id": this.state.id,
+                "name": this.state.name,
+            }
+        });
     };
 
     onPwClick (){
@@ -60,10 +92,18 @@ export default class Setting extends React.Component {
         }
     };
 
+    // modify password
     handleModify = (e) => {
         this.setState({pw: e.target.value});
         message.success("change password successfully");
         this.setState({newPw: false});
+        fetch("http://localhost:8080/changePassword", {
+            method: 'post',
+            body: {
+                "id": this.state.id,
+                "password": this.state.pw,
+            }
+        });
     }
 
     render () {

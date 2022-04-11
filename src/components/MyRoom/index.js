@@ -6,31 +6,34 @@ URL="http://localhost:8080/myrooms"
 
 const { confirm } = Modal;
 
-const data = [
-    {
-        title: 'Title 1',
-        date: "2022/4/5"
-    },
-    {
-        title: 'Title 2',
-    },
-    {
-        title: 'Title 3',
-    },
-    {
-        title: 'Title 4',
-    },
-];
-
 export default class MyRoom extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            list: data,
+            list: [
+                {
+                    title: 'Title 1',
+                    date: "2022/4/5",
+                    id: "",
+                },
+                {
+                    title: 'Title 2',
+                    id: "",
+                },
+                {
+                    title: 'Title 3',
+                    id: "",
+                },
+                {
+                    title: 'Title 4',
+                    id: "",
+                },
+            ],
         }
 
     }
 
+    // get my rooms
     componentDidMount() {
         fetch(URL)
             .then(res=>res.json())
@@ -43,7 +46,8 @@ export default class MyRoom extends React.Component {
                 }
                 )
 
-        }
+    }
+
 
     showConfirm = (id) => {
         confirm({
@@ -57,9 +61,27 @@ export default class MyRoom extends React.Component {
         });
     }
 
+     //delete room
     handleDelete = (id) => {
+        let data = this.state.list;
         data.splice(id, 1);
         this.setState({list: data});
+        fetch("http://localhost:8080/deleteRoom", {
+            method: 'post',
+            body: {
+                "id": id,
+            }
+        });
+    }
+
+    //join room
+    onButtonClick = (id) => {
+        fetch("http://localhost:8080/join", {
+            method: 'post',
+            body: {
+                "id": id,
+            }
+        });
     }
 
     render () {
@@ -81,7 +103,7 @@ export default class MyRoom extends React.Component {
                                     Delete
                                     </Button>,
                                     <Divider type = "vertical" />,
-                                    <Button size="small" type="primary" style={{width: 60}}>
+                                    <Button size="small" type="primary" style={{width: 60}} onClick={this.onButtonClick.bind(this, item.id)}>
                                     Join
                                     </Button>]}
                                 hoverable

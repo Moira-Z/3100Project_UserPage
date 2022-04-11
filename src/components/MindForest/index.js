@@ -2,25 +2,34 @@ import React from "react";
 import {Card, List, Divider, Avatar, Layout, Input, Button} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import {Content} from "antd/es/layout/layout";
+URL="http://localhost:8080/rooms"
 
 const { Search } = Input;
 
 const data = [
     {
         title: 'Title 1',
-        id: "001"
+        id: "001",
+        avatar: "https://joeschmoe.io/api/v1/random",
+        date: "2022/04/12",
     },
     {
         title: 'Title 2',
-        id: "002"
+        avatar: "https://joeschmoe.io/api/v1/random",
+        id: "002",
+        date: "",
     },
     {
         title: 'Title 3',
-        id: "003"
+        avatar: "https://joeschmoe.io/api/v1/random",
+        id: "003",
+        date: "",
     },
     {
         title: 'Title 4',
-        id: "004"
+        avatar: "https://joeschmoe.io/api/v1/random",
+        id: "004",
+        date: "",
     },
 ];
 
@@ -28,10 +37,27 @@ export default class MindForest extends React.Component {
     constructor(props) {
         super(props);
         this.state={
+             data: data,
              searchText: null,
              searchRes: data,
              returnButton: false,
         }
+    }
+
+    // get all rooms
+    componentDidMount() {
+        fetch(URL)
+            .then(res=>res.json())
+            .then(
+                (result)=>{
+                    this.setState({data:result});
+                    this.setState({searchRes: result});
+                },
+                (error)=>{
+                    console.log("Fetch failed")
+                }
+            )
+
     }
 
     onSearch = value => {
@@ -46,6 +72,16 @@ export default class MindForest extends React.Component {
     onClick = () => {
         this.setState({searchRes: data});
         this.setState({returnButton: false});
+    }
+
+    //join room
+    onButtonClick = (id) => {
+        fetch("http://localhost:8080/join", {
+            method: 'post',
+            body: {
+                "id": id,
+            }
+        });
     }
 
     render () {
@@ -66,16 +102,16 @@ export default class MindForest extends React.Component {
                         renderItem={item => (
                                 <Card
                                     type = "inner"
-                                    title={<div><Avatar style={{marginRight: 15}} src="https://joeschmoe.io/api/v1/random" />
+                                    title={<div><Avatar style={{marginRight: 15}} src={item.avatar} />
                                         {item.title} </div>}
-                                    extra={<Button size="small" type="primary" style={{width: 70}}>
+                                    extra={<Button size="small" type="primary" style={{width: 70}} onClick={this.onButtonClick.bind(this, item.id)}>
                                         Join
                                     </Button>}
                                     hoverable
                                     style={{marginBottom: 20, height: 100, width: "100%"}}>
                                     <List.Item style={{paddingTop: 0}}>
                                         <List.Item.Meta
-                                            description= {<span>last modified: {item.date}</span>}
+                                            description= {<span>created: {item.date}</span>}
                                         />
                                     </List.Item>
                                 </Card>
@@ -83,7 +119,7 @@ export default class MindForest extends React.Component {
                     />
                     {this.state.returnButton?
                         <div style={{marginTop: 20, float:"right"}}><Button type="primary" onClick={this.onClick}>Return</Button></div>
-                    :<div></div>}
+                    :<div> </div>}
                 </Content>
             </Layout>
         );

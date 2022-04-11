@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link, Routes, useLocation} from "react-router-dom";
+import {Route, Link, Routes, useLocation, useState} from "react-router-dom";
 import './index.less';
 import {Avatar, Button, Layout, Menu} from "antd";
 import {ClusterOutlined, DatabaseOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
@@ -9,14 +9,62 @@ import Setting from "../Setting";
 
 const {Content, Footer, Sider} = Layout;
 
-function Home(){
-    const path=useLocation()["pathname"];
-    let selected='1';
-    if(path === "/myRoom")
-        selected = '2';
-    else
-        if(path === "/setting")
-            selected = '3';
+
+export default class Home extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state={
+            selected: "1",
+            name: "Moira",
+            id: "",
+            avatar: "",
+            info: [{
+                id: "",
+                username: "Moira",
+                password: "123456",
+                email: "1155141582@link.cuhk.edu.hk",
+                avatar: "",
+            }],
+        }
+    }
+
+    //get user info
+    componentDidMount() {
+        fetch("http://localhost:8080/setting")
+            .then(res=>res.json())
+            .then(
+                (result)=>{
+                    this.setState({info:result})
+                },
+                (error)=>{
+                    console.log("Fetch failed")
+                }
+            )
+
+    }
+
+    // create new room
+    onClick = (id) => {
+        fetch("http://localhost:8080/newRoom", {
+            method: 'post',
+            body: {
+                "id": id,
+            }
+        });
+    }
+
+    select(){
+        let path = window.location.pathname;
+        console.log(path);
+        if (path === "/main/*")
+            return "1";
+        if (path === "/main/myRoom")
+            return "2";
+        if (path === "/main/setting")
+            return "3";
+    }
+
+    render(){
 
     return (
         <Layout hasSider>
@@ -35,18 +83,18 @@ function Home(){
                     user name
                 </div>
                 <div className="button-new">
-                    <Button type="primary" style={{ width: 125, margin: 20, marginLeft: 27.5}}>
+                    <Button type="primary" style={{ width: 125, margin: 20, marginLeft: 27.5}} onClick={this.onClick.bind(this, this.state.id)}>
                         + New
                     </Button>
                 </div>
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={[selected]} >
-                    <Menu.Item key="1" icon={<ClusterOutlined />} style={{ height: 60}} selected={useLocation()["pathname"]==='"/*"'}>
-                        <Link to="/main">Mind Forest</Link>
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={[this.select()]} >
+                    <Menu.Item key="1" icon={<ClusterOutlined />} style={{ height: 60}} >
+                        <Link to="/main/*">Mind Forest</Link>
                     </Menu.Item>
-                    <Menu.Item key="2" icon={<DatabaseOutlined />} style={{ height: 60}} selected={useLocation()["pathname"]==='"/myRoom"'}>
+                    <Menu.Item key="2" icon={<DatabaseOutlined />} style={{ height: 60}} >
                         <Link to="/main/myRoom">My Room</Link>
                     </Menu.Item>
-                    <Menu.Item key="3" icon={<SettingOutlined />} style={{ height: 60}} selected={useLocation()["pathname"]==='"/setting"'}>
+                    <Menu.Item key="3" icon={<SettingOutlined />} style={{ height: 60}} >
                         <Link to="/main/setting">Setting</Link>
                     </Menu.Item>
                 </Menu>
@@ -58,8 +106,7 @@ function Home(){
                             <Routes>
                                 <Route path="/myRoom" element={<MyRoom />} />
                                 <Route path="/setting" element={<Setting />} />
-                                <Route path="/main" element={<MindForest />} />
-
+                                <Route path="/*" element={<MindForest />} />
                             </Routes>
                         </div>
                     </div>
@@ -67,8 +114,5 @@ function Home(){
                 <Footer style={{ textAlign: 'center' }}>MindForest@CSCI3100 Group E3</Footer>
             </Layout>
         </Layout>
-    );
+    );}
 }
-
-
-export default Home;
