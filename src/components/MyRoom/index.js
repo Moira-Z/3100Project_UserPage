@@ -2,7 +2,7 @@ import React from "react";
 import {Modal, Card, List, Layout, Button, Divider} from 'antd';
 import {Content} from "antd/es/layout/layout";
 import {ExclamationCircleOutlined} from '@ant-design/icons';
-URL="http://localhost:8080/myrooms"
+import {useNavigate} from "react-router-dom";
 
 const { confirm } = Modal;
 
@@ -35,7 +35,7 @@ export default class MyRoom extends React.Component {
 
     // get my rooms
     componentDidMount() {
-        fetch(URL)
+        fetch("http://localhost:8080/myrooms")
             .then(res=>res.json())
             .then(
                 (result)=>{
@@ -68,9 +68,10 @@ export default class MyRoom extends React.Component {
         this.setState({list: data});
         fetch("http://localhost:8080/deleteRoom", {
             method: 'post',
-            body: {
+            header: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
                 "id": id,
-            }
+            })
         });
     }
 
@@ -78,9 +79,12 @@ export default class MyRoom extends React.Component {
     onButtonClick = (id) => {
         fetch("http://localhost:8080/join", {
             method: 'post',
-            body: {
+            header: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
                 "id": id,
-            }
+            })
+        }).then(function (res){
+            useNavigate("/room");
         });
     }
 
@@ -113,7 +117,7 @@ export default class MyRoom extends React.Component {
                                 >
                                 <List.Item.Meta
 
-                                    description= {<span>last modified: {item.date}</span>}
+                                    description= {<span>created: {item.date}</span>}
                                 />
                             </List.Item>
                             </Card>

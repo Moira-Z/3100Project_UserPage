@@ -1,29 +1,36 @@
 import React from "react";
 import {Content} from "antd/es/layout/layout";
-import {CheckOutlined, ExclamationCircleOutlined, UserOutlined} from '@ant-design/icons';
-import {Divider, Avatar, Layout, Popover, Button, Input, Tooltip, message, Modal} from 'antd';
+import {UploadOutlined, ExclamationCircleOutlined, UserOutlined} from '@ant-design/icons';
+import {Divider, Avatar, Layout, Popover, Button, Input, Tooltip, message, Modal, Upload} from 'antd';
 import {Link} from "react-router-dom";
 URL="http://localhost:8080/setting";
 
 const { confirm } = Modal;
+
+function getBase64(img, callback) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+}
 
 export default class Setting extends React.Component {
     constructor(props) {
         super(props);
         this.state={
             disabledName: true,
-            name: "Moira",
-            pw: "123456",
+            name: "",
+            pw: "",
             id: "",
-            mail: "1155141582@link.cuhk.edu.hk",
+            email: "",
+            avatar: "",
             checkPw: false,
             newPw: false,
             info: [{
-                id: "",
+                id: "111111",
                 username: "Moira",
                 password: "123456",
                 email: "1155141582@link.cuhk.edu.hk",
-                avatar: "",
+                avatar: "https://joeschmoe.io/api/v1/random",
             }],
         }
     }
@@ -34,12 +41,21 @@ export default class Setting extends React.Component {
             .then(
                 (result)=>{
                     this.setState({info:result})
+                    this.setState({name: this.state.info[0]["username"]});
+                    this.setState({id: this.state.info[0]["id"]});
+                    this.setState({avatar: this.state.info[0]["avatar"]});
+                    this.setState({email: this.state.info[0]["email"]});
+                    this.setState({password: this.state.info[0]["password"]});
                 },
                 (error)=>{
                     console.log("Fetch failed")
                 }
             )
-
+        this.setState({name: this.state.info[0]["username"]});
+        this.setState({id: this.state.info[0]["id"]});
+        this.setState({avatar: this.state.info[0]["avatar"]});
+        this.setState({email: this.state.info[0]["email"]});
+        this.setState({pw: this.state.info[0]["password"]});
     }
 
     onNameClick (){
@@ -52,12 +68,13 @@ export default class Setting extends React.Component {
         this.setState({name: e.target.value});
         this.setState({disabledName: true});
         message.success("your nickname is modified successfully:)");
-        fetch("http://localhost:8080/changePassword", {
+        fetch("http://localhost:8080/changeName", {
             method: 'post',
-            body: {
+            header: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
                 "id": this.state.id,
-                "name": this.state.name,
-            }
+                "name": e.target.value,
+            })
         });
     };
 
@@ -99,11 +116,24 @@ export default class Setting extends React.Component {
         this.setState({newPw: false});
         fetch("http://localhost:8080/changePassword", {
             method: 'post',
-            body: {
+            header: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
                 "id": this.state.id,
-                "password": this.state.pw,
-            }
+                "password": e.target.value,
+            })
         });
+    }
+
+    onAvatarClick = (info) => {
+        if (info.file.status === 'done') {
+            // Get this url from response in real world.
+            getBase64(info.file.originFileObj, imageUrl =>
+                this.setState({
+                    avatar: imageUrl,
+                    loading: false,
+                }),
+            );
+        }
     }
 
     render () {
@@ -114,13 +144,19 @@ export default class Setting extends React.Component {
                     <Divider />
                     <div>
                         <div style={{float: "right", paddingRight: 100, paddingTop:20}}>
-                            <Popover content={<a>change avatar</a>} placement="bottom">
-
+                            <Popover content={<Upload
+                                name="avatar"
+                                showUploadList={false}
+                                action="http://localhost:8080/changeAvatar"
+                                onChange={this.onAvatarClick}
+                            >
+                                <Button icon={<UploadOutlined />}>Upload</Button>
+                            </Upload>} placement="bottom">
                                     <Avatar
                                         size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 100, xxl: 100 }}
                                         icon={<UserOutlined />}
+                                        src={this.state.avatar}
                                     />
-
                             </Popover>
                         </div>
                         <div style={{float: "left"}}>
@@ -128,12 +164,12 @@ export default class Setting extends React.Component {
                             <Tooltip title = {<span>you cannot edit email</span>} placement="right" color="#1DA57A">
                                 <div style={{width: 400, height: 35, border: "1px solid #d9d9d9", color: "rgba(0, 0, 0, 0.25)",
                                     backgroundColor: "#f5f5f5", lineHeight: "30px", paddingLeft: 11}}>
-                                    email address display
+                                    {this.state.email}
                                 </div>
                             </Tooltip>
                         <div className="subtitle">Name</div>
                             <Input placeholder="type your name"
-                                   defaultValue= {this.state.name}
+                                   value= {this.state.name}
                                    onPressEnter={this.onNamePressEnter}
                                    style={{width: 200, height: 35}}
                                    disabled ={this.state.disabledName}/>
@@ -159,7 +195,7 @@ export default class Setting extends React.Component {
                                 <div style={{paddingTop: 20}}>
                                 <Divider/>
                                     <Tooltip title = {<span>press Enter to confirm</span>} placement="right" color="#1DA57A">
-                                <div ><span style={{color: "#105c21"}}>Original password: </span>
+                                <div><span style={{color: "#105c21"}}>Original password: </span>
                                     <Input.Password placeholder="please type your original password"
                                                     onPressEnter={this.onPwPressEnter}
                                            style={{width: 300, height: 35}}/>

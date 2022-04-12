@@ -2,7 +2,6 @@ import React from "react";
 import {Card, List, Divider, Avatar, Layout, Input, Button} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import {Content} from "antd/es/layout/layout";
-URL="http://localhost:8080/rooms"
 
 const { Search } = Input;
 
@@ -46,7 +45,7 @@ export default class MindForest extends React.Component {
 
     // get all rooms
     componentDidMount() {
-        fetch(URL)
+        fetch("http://localhost:8080/rooms")
             .then(res=>res.json())
             .then(
                 (result)=>{
@@ -78,9 +77,10 @@ export default class MindForest extends React.Component {
     onButtonClick = (id) => {
         fetch("http://localhost:8080/join", {
             method: 'post',
-            body: {
+            header: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
                 "id": id,
-            }
+            })
         });
     }
 
