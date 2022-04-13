@@ -49,20 +49,20 @@ export default class MyRoom extends React.Component {
     }
 
 
-    showConfirm = (id) => {
+    showConfirm = (id, idx) => {
         confirm({
             title: 'Do you want to delete this mind map?',
             icon: <ExclamationCircleOutlined />,
             content: 'When clicked the OK button, this dialog will be closed after 1 second',
             onOk:()=> {
-                this.handleDelete(id);
+                this.handleDelete(id, idx);
             },
             onCancel() {},
         });
     }
 
      //delete room
-    handleDelete = (id) => {
+    handleDelete = (id, idx) => {
         let data = this.state.list;
         data.splice(id, 1);
         this.setState({list: data});
@@ -70,7 +70,7 @@ export default class MyRoom extends React.Component {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                id: id,
+                id: idx,
             })
         });
     }
@@ -107,7 +107,7 @@ export default class MyRoom extends React.Component {
                             <Card
                                 type = "inner"
                                 title={item.name}
-                                extra={[<Button onClick={this.showConfirm.bind(this, idx)} size="small" type="primary" style={{width: 60}}>
+                                extra={[<Button onClick={this.showConfirm.bind(this, idx, item.id)} size="small" type="primary" style={{width: 60}}>
                                     Delete
                                     </Button>,
                                     <Divider type = "vertical" />,

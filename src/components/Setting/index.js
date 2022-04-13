@@ -164,7 +164,7 @@ export default class Setting extends React.Component {
                             </Tooltip>
                         <div className="subtitle">Name</div>
                             <Input placeholder="type your name"
-                                   value= {this.state.name}
+                                   defaultValue = {this.state.name}
                                    onPressEnter={this.onNamePressEnter}
                                    style={{width: 200, height: 35}}
                                    disabled ={this.state.disabledName}/>
