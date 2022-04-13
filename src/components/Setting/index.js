@@ -72,8 +72,8 @@ export default class Setting extends React.Component {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                "id": this.state.id,
-                "name": e.target.value,
+                id: this.state.id,
+                name: e.target.value,
             })
         });
     };
@@ -118,8 +118,8 @@ export default class Setting extends React.Component {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                "id": this.state.id,
-                "password": e.target.value,
+                id: this.state.id,
+                password: e.target.value,
             })
         });
     }

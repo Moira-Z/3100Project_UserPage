@@ -70,7 +70,7 @@ export default class MyRoom extends React.Component {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                "id": id,
+                id: id,
             })
         });
     }
@@ -81,11 +81,11 @@ export default class MyRoom extends React.Component {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                "id": id,
+                id: id,
             })
         }).then(function (res){
-            const navigate = useNavigate();
-            navigate("/room");
+            window.location.replace("/canvas")
+            console.log("Should change")
         });
     }
 
