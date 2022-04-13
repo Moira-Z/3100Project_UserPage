@@ -132,7 +132,7 @@ export default class Setting extends React.Component {
     }
 
     onLogoutClick () {
-        window.location.replace("/login");
+        window.location.replace("/logout");
     }
 
     render () {
