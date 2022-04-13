@@ -22,16 +22,9 @@ export default class Setting extends React.Component {
             pw: "1234",
             id: 100,
             email: "11",
-            avatar: "https://joeschmoe.io/api/v1/random",
+            avatar: null,
             checkPw: false,
             newPw: false,
-            info: [{
-                id: 123,
-                username: "Moira",
-                password: "123456",
-                email: "1155141582@link.cuhk.edu.hk",
-                avatar: "https://joeschmoe.io/api/v1/random",
-            }],
         }
     }
 
@@ -40,12 +33,11 @@ export default class Setting extends React.Component {
             .then(res=>res.json())
             .then(
                 (result)=>{
-                    this.setState({info:result})
                     this.setState({name: result.username});
                     this.setState({id: result.id});
                     this.setState({avatar: result.avatar});
                     this.setState({email: result.email});
-                    this.setState({password: result.password});
+                    this.setState({pw: result.password});
                 },
                 (error)=>{
                     console.log("Fetch failed")
@@ -63,7 +55,7 @@ export default class Setting extends React.Component {
         this.setState({name: e.target.value});
         this.setState({disabledName: true});
         message.success("your nickname is modified successfully:)");
-        fetch("http://localhost:8080/changeName", {
+        fetch("/changeName", {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -111,7 +103,7 @@ export default class Setting extends React.Component {
         this.setState({pw: e.target.value});
         message.success("change password successfully");
         this.setState({newPw: false});
-        fetch("http://localhost:8080/changePassword", {
+        fetch("/changePassword", {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -133,11 +125,18 @@ export default class Setting extends React.Component {
         }
     }
 
+    onLogoutClick () {
+        window.location.replace("/logout");
+    }
+
     render () {
         return (
             <Layout>
                 <Content className="site-layout-background" style={{textAlign: "left", paddingLeft: "50px", paddingRight: "50px"}}>
-                    <div className="title">Profile</div>
+                    <span className="title">Profile</span>
+                    <Button style={{float:"right"}} onClick={() => this.onLogoutClick()}>
+                        Log out
+                    </Button>
                     <Divider />
                     <div>
                         <div style={{float: "right", paddingRight: 100, paddingTop:20}}>

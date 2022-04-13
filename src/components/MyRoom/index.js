@@ -10,32 +10,23 @@ export default class MyRoom extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            list: [
+            list: [{
+                name: 'Title 1',
+                id: 1,
+                createDate: "2022/04/12",
+            },
                 {
-                    name: 'Title 1',
-                    date: "2022/4/5",
-                    id: 1,
-                },
-                {
-                    name: 'Title 2',
+                    title: 'Title 2',
                     id: 2,
-                },
-                {
-                    name: 'Title 3',
-                    id: "",
-                },
-                {
-                    name: 'Title 4',
-                    id: "",
-                },
-            ],
+                    date: "",
+                },],
         }
 
     }
 
     // get my rooms
     componentDidMount() {
-        fetch("http://localhost:8080/myrooms")
+        fetch("/myrooms")
             .then(res=>res.json())
             .then(
                 (result)=>{
@@ -64,7 +55,7 @@ export default class MyRoom extends React.Component {
      //delete room
     handleDelete = (id, idx) => {
         console.log(idx);
-        fetch("http://localhost:8080/deleteRoom", {
+        fetch("/deleteRoom", {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -78,16 +69,19 @@ export default class MyRoom extends React.Component {
 
     //join room
     onButtonClick = (id) => {
-        fetch("http://localhost:8080/join", {
-            method: 'post',
-            header: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                id: id,
-            })
-        }).then(function (res){
-            window.location.replace("/canvas")
-            console.log("Should change")
-        });
+        console.log(id)
+        const url='/join'
+        const info={
+            id:id
+        }
+        fetch(url,{
+            method:'POST',
+            credentials:'include',
+            headers: {'Content-Type': 'application/json'},
+            body:JSON.stringify(info)
+        }).then(()=> {
+            window.location.replace("/canvas");
+        })
     }
 
     render () {

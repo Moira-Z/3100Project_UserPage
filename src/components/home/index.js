@@ -15,8 +15,8 @@ export default class Home extends React.Component{
         super(props);
         this.state={
             selected: "1",
-            name: "username",
-            id: "123",
+            name: "moira",
+            id: 1,
             avatar: "",
             info: [{
                 id: "111111",
@@ -30,47 +30,42 @@ export default class Home extends React.Component{
 
     //get user info
     componentDidMount() {
-        fetch("http://localhost:8080/setting")
+        fetch("/setting")
             .then(res=>res.json())
             .then(
                 (result)=>{
                     this.setState({info:result})
-                    this.setState({name: this.state.info[0]["username"]});
-                    this.setState({id: this.state.info[0]["id"]});
-                    this.setState({avatar: this.state.info[0]["avatar"]});
+                    this.setState({name: result.username});
+                    this.setState({id: result.id});
+                    this.setState({avatar: result.avatar});
                 },
                 (error)=>{
                     console.log("Fetch failed")
                 }
             )
-        this.setState({name: this.state.info[0]["username"]});
-        this.setState({id: this.state.info[0]["id"]});
-        this.setState({avatar: this.state.info[0]["avatar"]});
     }
 
     // create new room
     onClick = (id) => {
-        fetch("http://localhost:8080/newroom", {
+        fetch("/newroom", {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                "id": id,
+                id: id,
             })
             }).then(function (data){
-                const navigate = useNavigate();
-                navigate("/canvas");
+                window.location.replace("/canvas");
         });
     }
 
     select(){
         let path = window.location.pathname;
         console.log(path);
-        if (path === "/main/*")
-            return "1";
         if (path === "/main/myRoom")
             return "2";
         if (path === "/main/setting")
             return "3";
+        return "1";
     }
 
     render(){
