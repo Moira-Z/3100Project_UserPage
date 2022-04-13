@@ -2,7 +2,7 @@ import React from "react";
 import {Modal, Card, List, Layout, Button, Divider} from 'antd';
 import {Content} from "antd/es/layout/layout";
 import {ExclamationCircleOutlined} from '@ant-design/icons';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const { confirm } = Modal;
 
@@ -77,14 +77,15 @@ export default class MyRoom extends React.Component {
 
     //join room
     onButtonClick = (id) => {
+        console.log("Should have id")
+        console.log(id)
         fetch("http://localhost:8080/join", {
             method: 'post',
+            credentials:'include',
             header: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                "id": id,
-            })
+            body: JSON.stringify({"id": id})
         }).then(function (res){
-            useNavigate("/room");
+            window.location.replace("/canvas")
         });
     }
 
