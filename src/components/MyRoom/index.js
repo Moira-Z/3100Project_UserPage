@@ -70,23 +70,26 @@ export default class MyRoom extends React.Component {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                "id": id,
+                id: id,
             })
         });
     }
 
     //join room
     onButtonClick = (id) => {
-        console.log("Should have id")
         console.log(id)
-        fetch("http://localhost:8080/join", {
-            method: 'post',
-            credentials:'include',
-            header: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"id": id})
-        }).then(function (res){
-            window.location.replace("/canvas")
-        });
+            const url='/join'
+            const info={
+                id:id
+            }
+            fetch(url,{
+                method:'POST',
+                credentials:'include',
+                headers: {'Content-Type': 'application/json'},
+                body:JSON.stringify(info)
+            }).then(()=> {
+                window.location.replace("/canvas");
+            })
     }
 
     render () {

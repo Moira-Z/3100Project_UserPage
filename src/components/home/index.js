@@ -53,7 +53,7 @@ export default class Home extends React.Component{
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                "id": id,
+                id: id,
             })
             }).then(function (res){
             window.location.replace("/canvas")

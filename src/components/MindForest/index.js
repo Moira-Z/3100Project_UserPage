@@ -77,16 +77,19 @@ export default class MindForest extends React.Component {
 
     //join room
     onButtonClick = (id) => {
-        console.log("Should have id")
         console.log(id)
-        fetch("http://localhost:8080/join", {
-            method: 'post',
+        const url='/join'
+        const info={
+            id:id
+        }
+        fetch(url,{
+            method:'POST',
             credentials:'include',
-            header: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"id": id})
-        }).then(function (res){
-            window.location.replace("/canvas")
-        });
+            headers: {'Content-Type': 'application/json'},
+            body:JSON.stringify(info)
+        }).then(()=> {
+            window.location.replace("/canvas");
+        })
     }
 
     render () {
