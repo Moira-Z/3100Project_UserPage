@@ -50,27 +50,25 @@ export default class Home extends React.Component{
 
     // create new room
     onClick = (id) => {
-        fetch("http://localhost:8080/newroom", {
+        fetch("/newroom", {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 "id": id,
             })
             }).then(function (data){
-                const navigate = useNavigate();
-                navigate("/canvas");
+                window.location.replace("/canvas");
         });
     }
 
     select(){
         let path = window.location.pathname;
         console.log(path);
-        if (path === "/main/*")
-            return "1";
         if (path === "/main/myRoom")
             return "2";
         if (path === "/main/setting")
             return "3";
+        return "1";
     }
 
     render(){
