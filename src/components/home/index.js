@@ -17,7 +17,7 @@ export default class Home extends React.Component{
             selected: "1",
             name: "username",
             id: "123",
-            avatar: "",
+            avatar: "https://joeschmoe.io/api/v1/random",
             info: [{
                 id: "111111",
                 username: "Moira",
@@ -35,9 +35,9 @@ export default class Home extends React.Component{
             .then(
                 (result)=>{
                     this.setState({info:result})
-                    this.setState({name: this.state.info[0]["username"]});
-                    this.setState({id: this.state.info[0]["id"]});
-                    this.setState({avatar: this.state.info[0]["avatar"]});
+                    this.setState({name: result.username});
+                    this.setState({id: result.id});
+                    this.setState({avatar: result.avatar});
                 },
                 (error)=>{
                     console.log("Fetch failed")
