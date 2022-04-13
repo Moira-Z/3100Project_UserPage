@@ -43,9 +43,6 @@ export default class Home extends React.Component{
                     console.log("Fetch failed")
                 }
             )
-        this.setState({name: this.state.info[0]["username"]});
-        this.setState({id: this.state.info[0]["id"]});
-        this.setState({avatar: this.state.info[0]["avatar"]});
     }
 
     // create new room
