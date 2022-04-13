@@ -10,25 +10,7 @@ export default class MyRoom extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            list: [
-                {
-                    title: 'Title 1',
-                    date: "2022/4/5",
-                    id: 1,
-                },
-                {
-                    title: 'Title 2',
-                    id: 2,
-                },
-                {
-                    title: 'Title 3',
-                    id: "",
-                },
-                {
-                    title: 'Title 4',
-                    id: "",
-                },
-            ],
+            list: null,
         }
 
     }

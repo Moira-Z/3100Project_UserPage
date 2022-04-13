@@ -36,9 +36,9 @@ export default class MindForest extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-             data: data,
+             data: null,
              searchText: null,
-             searchRes: data,
+             searchRes: null,
              returnButton: false,
         }
     }
