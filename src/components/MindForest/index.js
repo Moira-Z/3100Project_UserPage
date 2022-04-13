@@ -2,32 +2,34 @@ import React from "react";
 import {Card, List, Divider, Avatar, Layout, Input, Button} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 import {Content} from "antd/es/layout/layout";
+import {useNavigate} from "react-router-dom";
+
 
 const { Search } = Input;
 
 const data = [
     {
         title: 'Title 1',
-        id: "001",
+        id: "1",
         avatar: "https://joeschmoe.io/api/v1/random",
         date: "2022/04/12",
     },
     {
         title: 'Title 2',
         avatar: "https://joeschmoe.io/api/v1/random",
-        id: "002",
+        id: "2",
         date: "",
     },
     {
         title: 'Title 3',
         avatar: "https://joeschmoe.io/api/v1/random",
-        id: "003",
+        id: "3",
         date: "",
     },
     {
         title: 'Title 4',
         avatar: "https://joeschmoe.io/api/v1/random",
-        id: "004",
+        id: "4",
         date: "",
     },
 ];
@@ -75,12 +77,15 @@ export default class MindForest extends React.Component {
 
     //join room
     onButtonClick = (id) => {
+        console.log("Should have id")
+        console.log(id)
         fetch("http://localhost:8080/join", {
             method: 'post',
+            credentials:'include',
             header: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                "id": id,
-            })
+            body: JSON.stringify({"id": id})
+        }).then(function (res){
+            window.location.replace("/canvas")
         });
     }
 

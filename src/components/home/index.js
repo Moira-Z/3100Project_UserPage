@@ -6,7 +6,6 @@ import {ClusterOutlined, DatabaseOutlined, SettingOutlined, UserOutlined} from "
 import MindForest from "../MindForest";
 import MyRoom from "../MyRoom";
 import Setting from "../Setting";
-
 const {Content, Footer, Sider} = Layout;
 
 
@@ -56,8 +55,9 @@ export default class Home extends React.Component{
             body: JSON.stringify({
                 "id": id,
             })
-            }).then(function (data){
-                useNavigate("/canvas");
+            }).then(function (res){
+            window.location.replace("/canvas")
+            console.log("Should change")
         });
     }
 
