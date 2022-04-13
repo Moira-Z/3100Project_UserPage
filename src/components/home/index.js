@@ -57,7 +57,8 @@ export default class Home extends React.Component{
                 "id": id,
             })
             }).then(function (data){
-                useNavigate("/canvas");
+                const navigate = useNavigate();
+                navigate("/canvas");
         });
     }
 

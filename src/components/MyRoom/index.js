@@ -14,7 +14,7 @@ export default class MyRoom extends React.Component {
                 {
                     title: 'Title 1',
                     date: "2022/4/5",
-                    id: "",
+                    id: "001",
                 },
                 {
                     title: 'Title 2',
@@ -84,7 +84,8 @@ export default class MyRoom extends React.Component {
                 "id": id,
             })
         }).then(function (res){
-            useNavigate("/room");
+            const navigate = useNavigate();
+            navigate("/room");
         });
     }
 

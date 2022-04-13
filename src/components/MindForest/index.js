@@ -7,10 +7,10 @@ const { Search } = Input;
 
 const data = [
     {
-        title: 'Title 1',
+        name: 'Title 1',
         id: "001",
         avatar: "https://joeschmoe.io/api/v1/random",
-        date: "2022/04/12",
+        createDate: "2022/04/12",
     },
     {
         title: 'Title 2',
@@ -103,7 +103,7 @@ export default class MindForest extends React.Component {
                                 <Card
                                     type = "inner"
                                     title={<div><Avatar style={{marginRight: 15}} src={item.avatar} />
-                                        {item.title} </div>}
+                                        {item.name} </div>}
                                     extra={<Button size="small" type="primary" style={{width: 70}} onClick={this.onButtonClick.bind(this, item.id)}>
                                         Join
                                     </Button>}
@@ -111,7 +111,7 @@ export default class MindForest extends React.Component {
                                     style={{marginBottom: 20, height: 100, width: "100%"}}>
                                     <List.Item style={{paddingTop: 0}}>
                                         <List.Item.Meta
-                                            description= {<span>created: {item.date}</span>}
+                                            description= {<span>created: {item.createDate}</span>}
                                         />
                                     </List.Item>
                                 </Card>
