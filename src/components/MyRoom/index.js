@@ -12,20 +12,20 @@ export default class MyRoom extends React.Component {
         this.state={
             list: [
                 {
-                    title: 'Title 1',
+                    name: 'Title 1',
                     date: "2022/4/5",
-                    id: "001",
+                    id: 1,
                 },
                 {
-                    title: 'Title 2',
+                    name: 'Title 2',
+                    id: 2,
+                },
+                {
+                    name: 'Title 3',
                     id: "",
                 },
                 {
-                    title: 'Title 3',
-                    id: "",
-                },
-                {
-                    title: 'Title 4',
+                    name: 'Title 4',
                     id: "",
                 },
             ],
@@ -49,30 +49,31 @@ export default class MyRoom extends React.Component {
     }
 
 
-    showConfirm = (id) => {
+    showConfirm = (id, idx) => {
         confirm({
             title: 'Do you want to delete this mind map?',
             icon: <ExclamationCircleOutlined />,
             content: 'When clicked the OK button, this dialog will be closed after 1 second',
             onOk:()=> {
-                this.handleDelete(id);
+                this.handleDelete(id, idx);
             },
             onCancel() {},
         });
     }
 
      //delete room
-    handleDelete = (id) => {
-        let data = this.state.list;
-        data.splice(id, 1);
-        this.setState({list: data});
+    handleDelete = (id, idx) => {
+        console.log(idx);
         fetch("http://localhost:8080/deleteRoom", {
             method: 'post',
             header: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                id: id,
+                id: idx,
             })
         });
+        let data = this.state.list;
+        data.splice(id, 1);
+        this.setState({list: data});
     }
 
     //join room
@@ -103,8 +104,8 @@ export default class MyRoom extends React.Component {
                         renderItem={(item, idx) => (
                             <Card
                                 type = "inner"
-                                title={item.title}
-                                extra={[<Button onClick={this.showConfirm.bind(this, idx)} size="small" type="primary" style={{width: 60}}>
+                                title={item.name}
+                                extra={[<Button onClick={this.showConfirm.bind(this, idx, item.id)} size="small" type="primary" style={{width: 60}}>
                                     Delete
                                     </Button>,
                                     <Divider type = "vertical" />,
@@ -118,7 +119,7 @@ export default class MyRoom extends React.Component {
                                 >
                                 <List.Item.Meta
 
-                                    description= {<span>created: {item.date}</span>}
+                                    description= {<span>created: {item.createDate}</span>}
                                 />
                             </List.Item>
                             </Card>

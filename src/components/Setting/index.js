@@ -18,15 +18,15 @@ export default class Setting extends React.Component {
         super(props);
         this.state={
             disabledName: true,
-            name: "",
-            pw: "",
-            id: "",
-            email: "",
-            avatar: "",
+            name: "a",
+            pw: "1234",
+            id: 100,
+            email: "11",
+            avatar: "https://joeschmoe.io/api/v1/random",
             checkPw: false,
             newPw: false,
             info: [{
-                id: "111111",
+                id: 123,
                 username: "Moira",
                 password: "123456",
                 email: "1155141582@link.cuhk.edu.hk",
@@ -41,21 +41,16 @@ export default class Setting extends React.Component {
             .then(
                 (result)=>{
                     this.setState({info:result})
-                    this.setState({name: this.state.info[0]["username"]});
-                    this.setState({id: this.state.info[0]["id"]});
-                    this.setState({avatar: this.state.info[0]["avatar"]});
-                    this.setState({email: this.state.info[0]["email"]});
-                    this.setState({password: this.state.info[0]["password"]});
+                    this.setState({name: result.username});
+                    this.setState({id: result.id});
+                    this.setState({avatar: result.avatar});
+                    this.setState({email: result.email});
+                    this.setState({password: result.password});
                 },
                 (error)=>{
                     console.log("Fetch failed")
                 }
             )
-        this.setState({name: this.state.info[0]["username"]});
-        this.setState({id: this.state.info[0]["id"]});
-        this.setState({avatar: this.state.info[0]["avatar"]});
-        this.setState({email: this.state.info[0]["email"]});
-        this.setState({pw: this.state.info[0]["password"]});
     }
 
     onNameClick (){
@@ -83,6 +78,8 @@ export default class Setting extends React.Component {
     };
 
     onPwPressEnter = (e) => {
+        console.log("here");
+        console.log(this.state.pw);
         if (e.target.value === this.state.pw)
         {
             message.success("Correct");
@@ -169,7 +166,7 @@ export default class Setting extends React.Component {
                             </Tooltip>
                         <div className="subtitle">Name</div>
                             <Input placeholder="type your name"
-                                   value= {this.state.name}
+                                   defaultValue = {this.state.name}
                                    onPressEnter={this.onNamePressEnter}
                                    style={{width: 200, height: 35}}
                                    disabled ={this.state.disabledName}/>
