@@ -14,11 +14,11 @@ export default class MyRoom extends React.Component {
                 {
                     title: 'Title 1',
                     date: "2022/4/5",
-                    id: "001",
+                    id: 1,
                 },
                 {
                     title: 'Title 2',
-                    id: "",
+                    id: 2,
                 },
                 {
                     title: 'Title 3',
@@ -103,7 +103,7 @@ export default class MyRoom extends React.Component {
                         renderItem={(item, idx) => (
                             <Card
                                 type = "inner"
-                                title={item.title}
+                                title={item.name}
                                 extra={[<Button onClick={this.showConfirm.bind(this, idx)} size="small" type="primary" style={{width: 60}}>
                                     Delete
                                     </Button>,
@@ -118,7 +118,7 @@ export default class MyRoom extends React.Component {
                                 >
                                 <List.Item.Meta
 
-                                    description= {<span>created: {item.date}</span>}
+                                    description= {<span>created: {item.createDate}</span>}
                                 />
                             </List.Item>
                             </Card>

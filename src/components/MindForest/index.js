@@ -8,26 +8,26 @@ const { Search } = Input;
 const data = [
     {
         name: 'Title 1',
-        id: "001",
+        id: 1,
         avatar: "https://joeschmoe.io/api/v1/random",
         createDate: "2022/04/12",
     },
     {
         title: 'Title 2',
         avatar: "https://joeschmoe.io/api/v1/random",
-        id: "002",
+        id: 2,
         date: "",
     },
     {
         title: 'Title 3',
         avatar: "https://joeschmoe.io/api/v1/random",
-        id: "003",
+        id: 3,
         date: "",
     },
     {
         title: 'Title 4',
         avatar: "https://joeschmoe.io/api/v1/random",
-        id: "004",
+        id: 4,
         date: "",
     },
 ];
@@ -62,7 +62,7 @@ export default class MindForest extends React.Component {
     onSearch = value => {
         console.log(value);
         this.setState({searchText: value});
-        let res = data.filter(item => item.id === value);
+        let res = data.filter(item => item.id === parseInt(value));
         console.log(res);
         this.setState({searchRes: res});
         this.setState({returnButton: true});
