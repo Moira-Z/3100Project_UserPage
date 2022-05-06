@@ -2,7 +2,6 @@ import React from "react";
 import {Content} from "antd/es/layout/layout";
 import {UploadOutlined, ExclamationCircleOutlined, UserOutlined} from '@ant-design/icons';
 import {Divider, Avatar, Layout, Popover, Button, Input, Tooltip, message, Modal, Upload} from 'antd';
-import {Link} from "react-router-dom";
 URL="http://localhost:8080/setting";
 
 const { confirm } = Modal;
@@ -45,6 +44,7 @@ export default class Setting extends React.Component {
             )
     }
 
+    // change name
     onNameClick (){
          this.setState({disabledName: false});
     };
@@ -65,10 +65,12 @@ export default class Setting extends React.Component {
         });
     };
 
+    // change password
     onPwClick (){
         this.setState({checkPw: true});
     };
 
+    // check old password
     onPwPressEnter = (e) => {
         console.log("here");
         console.log(this.state.pw);
@@ -83,6 +85,7 @@ export default class Setting extends React.Component {
         }
     };
 
+    // confirm to change new password
     onNewPwPressEnter = (e) => {
         if(e.target.value){
         confirm({
@@ -125,6 +128,7 @@ export default class Setting extends React.Component {
         }
     }
 
+    // log out
     onLogoutClick () {
         window.location.replace("/logout");
     }
@@ -198,7 +202,7 @@ export default class Setting extends React.Component {
                                 </div>
                                     </Tooltip>
                                 </div>
-                                : <div></div>}
+                                : <div> </div>}
                             {this.state.newPw ?
                                 <div style={{paddingTop: 20}}>
                                     <Divider/>
@@ -211,7 +215,7 @@ export default class Setting extends React.Component {
                                     </div>
                                     </Tooltip>
                                 </div>
-                                :<div></div>}
+                                :<div> </div>}
                         </div>
                     </div>
                 </Content>

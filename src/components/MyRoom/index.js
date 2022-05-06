@@ -2,7 +2,6 @@ import React from "react";
 import {Modal, Card, List, Layout, Button, Divider} from 'antd';
 import {Content} from "antd/es/layout/layout";
 import {ExclamationCircleOutlined} from '@ant-design/icons';
-import {useNavigate} from "react-router-dom";
 
 const { confirm } = Modal;
 
@@ -11,12 +10,12 @@ export default class MyRoom extends React.Component {
         super(props);
         this.state={
             list: [{
-                name: 'Title 1',
+                name: '',
                 id: 1,
-                createDate: "2022/04/12",
+                createDate: "",
             },
                 {
-                    title: 'Title 2',
+                    title: '',
                     id: 2,
                     date: "",
                 },],
@@ -40,6 +39,7 @@ export default class MyRoom extends React.Component {
     }
 
 
+    // confirm to delete mind map
     showConfirm = (id, idx) => {
         confirm({
             title: 'Do you want to delete this mind map?',

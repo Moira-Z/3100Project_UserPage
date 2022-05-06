@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Link, Routes, useNavigate, useState} from "react-router-dom";
+import {Route, Link, Routes} from "react-router-dom";
 import './index.less';
 import {Avatar, Button, Layout, Menu} from "antd";
 import {ClusterOutlined, DatabaseOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
@@ -15,14 +15,14 @@ export default class Home extends React.Component{
         super(props);
         this.state={
             selected: "1",
-            name: "moira",
+            name: "",
             id: 1,
             avatar: "",
             info: [{
-                id: "111111",
-                username: "Moira",
-                password: "123456",
-                email: "1155141582@link.cuhk.edu.hk",
+                id: "",
+                username: "",
+                password: "",
+                email: "",
                 avatar: "https://joeschmoe.io/api/v1/random",
             }],
         }
@@ -58,6 +58,7 @@ export default class Home extends React.Component{
         });
     }
 
+    // set selected key of sider
     select(){
         let path = window.location.pathname;
         console.log(path);
@@ -69,7 +70,6 @@ export default class Home extends React.Component{
     }
 
     render(){
-
     return (
         <Layout hasSider>
             <Sider

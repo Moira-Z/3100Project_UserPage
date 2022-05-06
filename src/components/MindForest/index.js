@@ -1,31 +1,30 @@
 import React from "react";
-import {Card, List, Divider, Avatar, Layout, Input, Button} from 'antd';
-import {UserOutlined} from '@ant-design/icons';
+import {Card, List, Avatar, Layout, Input, Button} from 'antd';
 import {Content} from "antd/es/layout/layout";
 
 const { Search } = Input;
 
 const data = [
     {
-        name: 'Title 1',
+        name: '',
         id: 1,
         avatar: "https://joeschmoe.io/api/v1/random",
-        createDate: "2022/04/12",
+        createDate: "",
     },
     {
-        title: 'Title 2',
+        title: '',
         avatar: "https://joeschmoe.io/api/v1/random",
         id: 2,
         date: "",
     },
     {
-        title: 'Title 3',
+        title: '',
         avatar: "https://joeschmoe.io/api/v1/random",
         id: 3,
         date: "",
     },
     {
-        title: 'Title 4',
+        title: '',
         avatar: "https://joeschmoe.io/api/v1/random",
         id: 4,
         date: "",
@@ -59,6 +58,7 @@ export default class MindForest extends React.Component {
 
     }
 
+    // search room
     onSearch = value => {
         console.log(value);
         this.setState({searchText: value});
@@ -68,6 +68,7 @@ export default class MindForest extends React.Component {
         this.setState({returnButton: true});
     }
 
+    // return to all rooms
     onClick = () => {
         this.setState({searchRes: data});
         this.setState({returnButton: false});
