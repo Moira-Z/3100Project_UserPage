@@ -9,7 +9,7 @@ import Setting from "../Setting";
 
 const {Content, Footer, Sider} = Layout;
 
-
+// home page
 export default class Home extends React.Component{
     constructor(props) {
         super(props);

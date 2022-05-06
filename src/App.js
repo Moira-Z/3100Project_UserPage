@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Home from "./components/home";
 
 function App() {
-    // go to main
+    // go to main page
   return (
       <Router>
             <Routes>

@@ -31,6 +31,7 @@ const data = [
     },
 ];
 
+// mind forest tab
 export default class MindForest extends React.Component {
     constructor(props) {
         super(props);

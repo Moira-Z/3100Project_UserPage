@@ -12,6 +12,7 @@ function getBase64(img, callback) {
     reader.readAsDataURL(img);
 }
 
+// setting tab
 export default class Setting extends React.Component {
     constructor(props) {
         super(props);
